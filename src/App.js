@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -7,15 +7,27 @@ import {
 } from "react-router-dom";
 import Users from "./user/pages/Users";
 import NewPlace from "./places/pages/NewPlace";
-import MainNavigation from './shared/components/Navigation/MainNavigation';
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import UserPlaces from "./places/pages/UserPlaces";
 import UpdatePlace from "./places/pages/UpdatePlace";
+import Auth from "./user/pages/Auth";
+import { AuthContext } from "./shared/context/auth-context";
 
 function App() {
-  return (
-    <Router>
-      <MainNavigation />
-      <main>
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  let routes;
+
+  if (isLoggedIn) {
+    routes = (
       <Switch>
         <Route path="/" exact>
           <Users />
@@ -31,8 +43,35 @@ function App() {
         </Route>
         <Redirect to="/" />
       </Switch>
-      </main>
-    </Router>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Users />
+        </Route>
+        <Route path="/:userId/places" exact>
+          <UserPlaces />
+        </Route>
+        <Route path="/auth">
+          <Auth />
+        </Route>
+        <Redirect to="/auth" />
+      </Switch>
+    );
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+    >
+      <Router>
+        <MainNavigation />
+        <main>
+          {routes}
+        </main>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 

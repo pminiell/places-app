@@ -5,7 +5,7 @@ const Users = () => {
   const USERS = [
     {
       id: "u1",
-      name: "Joe Dirt",
+      name: "$hitty Johnson",
       image:
         "https://images.pexels.com/photos/5695555/pexels-photo-5695555.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
       places: 3,
