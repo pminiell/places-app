@@ -28,6 +28,7 @@ const PlaceItem = (props) => {
   };
 
   const confirmDeleteHandler = () => {
+    // Deleting logic goes here?
     console.log("deleting...");
     setShowConfirmModal(false);
   };
@@ -49,7 +50,7 @@ const PlaceItem = (props) => {
       <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteWarningHandler}
-        header="are you sure?"
+        header="Are you sure?"
         footerClass="place-item__modal-actions"
         footer={
           <React.Fragment>
@@ -57,7 +58,7 @@ const PlaceItem = (props) => {
               Cancel
             </Button>
             <Button danger onClick={confirmDeleteHandler}>
-              delete
+              Delete
             </Button>
           </React.Fragment>
         }
